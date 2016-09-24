@@ -1,24 +1,54 @@
 var App = App || {};
-App.Socket = function(){
+App.Socket = function(m){
   var that = {},
-      IP = 'http://localhost:3000',
-      socket;
+      main,
+      IP = '127.0.0.1:3000',
+      socket,
+      time;
 
-  function init(){
+  function init(m){
+      main = m;
+
       socket = io.connect(IP, {reconnect: true});
 
-      socket.on('connect', function (socket) {
+      socket.on('connect', function (s) {
+          socket.emit('register','player');
           console.log('Connected!');
+          //testPing();
+      });
+
+      socket.on('position', function (position) {
+          console.log('Received position '+position);
+          main.setPosition(position);
       });
   }
 
-  function sendInput(key,direction) {
-      var content = {key:key,direction:direction};
+  function sendInput(key,state) {
+      var content = {key:key,state:state};
       console.log(content);
       socket.emit('input',content);
   }
 
-  init();
+  function testPing(){
+      time = getTime();
+      socket.emit('ping-player');
+      socket.on('ping', function () {
+          var secondTime = getTime();
+          var delta = secondTime -time;
+          console.log('ping: '+delta);
+      });
+      setTimeout(function(){
+          testPing();
+      }, 5000);
+  }
+
+  function getTime(){
+      var d = new Date();
+      var n = d.getTime();
+      return n;
+  }
+
+  init(m);
   that.sendInput = sendInput;
   return that;
 };

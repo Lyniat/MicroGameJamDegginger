@@ -6,15 +6,20 @@ App.Main = function () {
 
     function init() {
         interface = new App.Interface(that);
-        socket = new App.Socket();
+        socket = new App.Socket(that);
     }
     
-    function sendInput(key,direction) {
-        console.log(key,direction);
-        socket.sendInput(key,direction);
+    function sendInput(key,state) {
+        console.log(key,state);
+        socket.sendInput(key,state);
+    }
+
+    function setPosition(position){
+        interface.setPosition(position);
     }
 
     init();
+    that.setPosition = setPosition;
     that.sendInput = sendInput;
     return that;
 };

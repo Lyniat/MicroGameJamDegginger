@@ -3,12 +3,12 @@ App.Interface = function (m) {
     var that = {},
         main;
 
-    function init(){
+    function init() {
         main = m;
         addListeners();
     }
 
-    function addListeners(){
+    function addListeners() {
         $('#button-left')[0].addEventListener("mousedown", buttonLeftDown);
         $('#button-action')[0].addEventListener("mousedown", buttonActionDown);
         $('#button-right')[0].addEventListener("mousedown", buttonRightDown);
@@ -18,31 +18,42 @@ App.Interface = function (m) {
         $('#button-right')[0].addEventListener("mouseup", buttonRightUp);
     }
 
-    function buttonLeftDown(){
-        main.sendInput(Input.LEFT,Input.DOWN);
+    function buttonLeftDown() {
+        main.sendInput(Input.LEFT, Input.DOWN);
     }
 
-    function buttonActionDown(){
-        main.sendInput(Input.ACTION,Input.DOWN);
+    function buttonActionDown() {
+        main.sendInput(Input.ACTION, Input.DOWN);
     }
 
-    function buttonRightDown(){
-        main.sendInput(Input.RIGHT,Input.DOWN);
+    function buttonRightDown() {
+        main.sendInput(Input.RIGHT, Input.DOWN);
     }
 
-    function buttonLeftUp(){
-        main.sendInput(Input.LEFT,Input.UP);
+    function buttonLeftUp() {
+        main.sendInput(Input.LEFT, Input.UP);
     }
 
-    function buttonActionUp(){
-        main.sendInput(Input.ACTION,Input.UP);
+    function buttonActionUp() {
+        main.sendInput(Input.ACTION, Input.UP);
     }
 
-    function buttonRightUp(){
-        main.sendInput(Input.RIGHT,Input.UP);
+    function buttonRightUp() {
+        main.sendInput(Input.RIGHT, Input.UP);
+    }
+
+    function setPosition(position) {
+        var text;
+        if (position > 0) {
+            text = 'Your position in the queue is ' + position;
+        }else{
+            text = 'Your turn! Play!';
+        }
+        $('#info-text').html(text);
     }
 
 
-init(m);
+    init(m);
+    that.setPosition = setPosition;
     return that;
 };
