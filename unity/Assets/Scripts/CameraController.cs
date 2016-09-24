@@ -22,13 +22,13 @@ public class CameraController : MonoBehaviour
                 targetPosition = new Vector3(player.position.x, player.position.y, player.position.z - 10f);
                 break;
 			case SceneEnum.East:
-                targetPosition = new Vector3(player.position.x - 10f, player.position.y, player.position.z);
+				targetPosition = new Vector3(player.position.x - 10f, player.position.y, player.position.z);
                 break;
 			case SceneEnum.South:
-                targetPosition = new Vector3(player.position.x, player.position.y, player.position.z + 10f);
+				targetPosition = new Vector3(player.position.x, player.position.y, player.position.z + 10f);
                 break;
 			case SceneEnum.West:
-                targetPosition = new Vector3(player.position.x + 10f, player.position.y, player.position.z);
+				targetPosition = new Vector3(player.position.x + 10f, player.position.y, player.position.z);
                 break;
         }
 
