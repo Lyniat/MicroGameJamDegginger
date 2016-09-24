@@ -1,9 +1,11 @@
 import serial
 import sys
-from socketIO_client import SocketIO, LoggingNamespace
+from socketIO_client import SocketIO
+
+
+server = sys.argv[2]
 
 device = sys.argv[1]
-server = sys.argv[2]
 
 print ('connecting to '+ str(device))
 
@@ -13,14 +15,11 @@ isActive = False
 
 print ('trying to connect to server on: '+server)
 
-def on_connect(*args):
-    print('connected', args)
+def on_connect(self):
+    print('connected')
     socketIO.emit('register','player')
 
-socketIO = SocketIO(server, 3000, LoggingNamespace)
-
-# Listen
-socketIO.on('connect', on_connect)
+socketIO = SocketIO(server, 3000)
 
 #socketIO.wait()
 
@@ -33,18 +32,21 @@ while True:
         part_1 = part_0[1].split('\\');
         if len(part_1) > 1:
             result = part_1[0]
-            print (result)
+            #print (result)
             num = int(result)
 
             if num is 0:
                 continue
 
             if num >= MIN_ACTIVATION :
-                print('touched');
-                isActive = True
-                socketIO.emit('input', {'user':-1, 'key':'right','state':'down'})
+                if not isActive:
+                    print('touched');
+                    isActive = True
+                    socketIO.emit('input', {'user':-1, 'key':'right','state':'down'})
             else:
-                isActive = False
-                socketIO.emit('input', {'user': -1, 'key': 'right', 'state': 'up'})
+                if isActive:
+                    print('released');
+                    isActive = False
+                    socketIO.emit('input', {'user': -1, 'key': 'right', 'state': 'up'})
 
 
